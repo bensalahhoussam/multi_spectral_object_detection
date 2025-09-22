@@ -29,18 +29,18 @@ This project requires paired RGB and Thermal images along with their correspondi
 
 ### 📂 File structure
 
-dataset/
-├── images/
-│ ├── train/ # RGB training images
-│ ├── val/ # RGB validation images
-│ └── test/ # RGB test images
+📂 dataset
+├── 📂 images
+│ ├── 📂 train # RGB training images
+│ ├── 📂 val # RGB validation images
+│ └── 📂 test # RGB test images
 │
-├── thermal/
-│ ├── train/ # Thermal training images
-│ ├── val/ # Thermal validation images
-│ └── test/ # Thermal test images
+├── 📂 thermal
+│ ├── 📂 train # Thermal training images
+│ ├── 📂 val # Thermal validation images
+│ └── 📂 test # Thermal test images
 │
-└── labels/
-├── train/ # Annotations for training
-├── val/ # Annotations for validation
-└── test/ # Annotations for testing
+└── 📂 labels
+├── 📂 train # Annotations for training
+├── 📂 val # Annotations for validation
+└── 📂 test # Annotations for testing
