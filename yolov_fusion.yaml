@@ -1,0 +1,104 @@
+# Ultralytics 🚀 AGPL-3.0 License - https://ultralytics.com/license
+
+# Ultralytics YOLOv8 object detection model with P3/8 - P5/32 outputs
+# Model docs: https://docs.ultralytics.com/models/yolov8
+# Task docs: https://docs.ultralytics.com/tasks/detect
+
+# Parameters
+nc: 4 # number of classes
+scales: # model compound scaling constants, i.e. 'model=yolov8n.yaml' will call yolov8.yaml with scale 'n'
+  # [depth, width, max_channels]
+#  n: [0.33, 0.25, 1024] # YOLOv8n summary: 129 layers, 3157200 parameters, 3157184 gradients, 8.9 GFLOPS
+#  s: [0.33, 0.50, 1024] # YOLOv8s summary: 129 layers, 11166560 parameters, 11166544 gradients, 28.8 GFLOPS
+#  m: [0.67, 0.75, 768] # YOLOv8m summary: 169 layers, 25902640 parameters, 25902624 gradients, 79.3 GFLOPS
+#  l: [1.00, 1.00, 512] # YOLOv8l summary: 209 layers, 43691520 parameters, 43691504 gradients, 165.7 GFLOPS
+#  x: [1.00, 1.25, 512] # YOLOv8x summary: 209 layers, 68229648 parameters, 68229632 gradients, 258.5 GFLOPS
+
+depth_multiple: 0.67
+width_multiple: 0.75
+max_channels: 768
+# YOLOv8.0n backbone
+backbone:
+  # [from, repeats, module, args]
+  # stream one
+
+  - [-1, 1, Conv, [64, 3, 2]] # 0-P1/2
+  - [-1, 1, Conv, [128, 3, 2]] # 1-P2/4
+  - [-1, 3, C2f, [128, True]]  # 2-P2/4
+  - [-1, 1, Conv, [256, 3, 2]] # 3-P3/8
+  - [-1, 6, C2f, [256, True]] # 4-P3/8
+  # stream two
+  - [ -6, 1, Conv, [ 64, 3, 2 ] ] # 5-P1/2
+  - [ -1, 1, Conv, [ 128, 3, 2 ] ] # 6-P2/4
+  - [ -1, 3, C2f, [ 128, True ] ] # 7-P2/4
+  - [ -1, 1, Conv, [ 256, 3, 2 ] ] # 8-P3/8
+  - [ -1, 6, C2f, [ 256, True ] ] # 9-P3/8
+
+  # transformer fusion
+  - [ [ 4,9 ], 1, GPT, [ 256 ] ]   # 10-P3/8
+  - [ [ 4,10 ], 1, Add2, [ 256,0 ] ]   # 11-P3/8 stream one x+trans[0]
+  - [ [ 9,10 ], 1, Add2, [ 256,1 ] ]   # 12-P3/8 stream two x+trans[1]
+
+  # stream one
+  - [11, 1, Conv, [512, 3, 2]] # 13-P4/16
+  - [-1, 6, C2f, [512, True]]  # 14-P4/16
+
+  # stream two
+  - [ 12, 1, Conv, [ 512, 3, 2 ] ] # 15-P4/16
+  - [ -1, 6, C2f, [ 512, True ] ] # 16-P4/16
+
+  # transformer fusion
+  - [ [ 14,16 ], 1, GPT, [ 512 ] ]  # 17-P3/8
+  - [ [ 14,17 ], 1, Add2, [ 512,0 ] ]    # 18-P3/8 stream one x+trans[0]
+  - [ [ 16,17 ], 1, Add2, [ 512,1 ] ]   # 19-P3/8 stream two x+trans[1]
+
+
+
+  # stream one
+  - [18, 1, Conv, [1024, 3, 2]] # 20-P5/32
+  - [-1, 3, C2f, [1024, True]]  # 21-P5/32
+  - [-1, 1, SPPF, [1024, 5]]   # 22-P5/32
+
+  # stream two
+  - [ 19, 1, Conv, [ 1024, 3, 2 ] ]  # 23-P5/32
+  - [ -1, 3, C2f, [ 1024, True ] ]  # 24-P5/32
+  - [ -1, 1, SPPF, [ 1024, 5 ] ]  # 25-P5/32
+
+  - [ [ 22,25 ], 1, GPT, [ 1024 ] ]   # 26-P5/32
+  - [ [ 22,26 ], 1, Add2, [ 1024,0 ] ]    # 27-P5/32 stream one x+trans[0]
+  - [ [ 25,26 ], 1, Add2, [ 1024,1 ] ]   # 28-P5/32 stream one x+trans[0]
+
+
+
+  - [ [ 11,12 ], 1, Add, [ 1 ] ]  # 29-P3/8 fusion backbone P3
+  - [ [ 18,19 ], 1, Add, [ 1 ] ]  # 30-P4/16 fusion backbone P4
+  - [ [ 27,28 ], 1, Add, [ 1 ] ]  # 31-P5/32 fusion backbone P5
+
+
+
+
+
+head:
+  # P5 → P4 upsample
+  - [-1, 1, nn.Upsample, [None, 2, "nearest"]]   # 32 upsample P5 → P4
+  - [[-1, 30], 1, Concat, [1]]                   # 33 cat head P4 (P5 upsample 1024 + P4 fusion 512 = 1536)
+  - [-1, 3, C2f, [512]]                          # 34 P4/16 feature (reduce 1536 → 512)
+
+  # P4 → P3 upsample
+  - [-1, 1, nn.Upsample, [None, 2, "nearest"]]   # 35 upsample P4 → P3
+  - [[-1, 29], 1, Concat, [1]]                   # 36 cat head P3 (upsampled 512 + P3 fusion 256 = 768)
+  - [-1, 3, C2f, [256]]                          # 37 P3/8 (small) (reduce 768 → 256)
+
+  # P3 → P4 downsample
+  - [-1, 1, Conv, [256, 3, 2]]                   # 38 downsample P3 → P4 (output 256, HxW halved)
+  - [[-1, 34], 1, Concat, [1]]                   # 39 cat head P4 (256 + 512 = 768)
+  - [-1, 3, C2f, [512]]                          # 40 P4/16 (medium) (reduce 768 → 512)
+
+  # P4 → P5 downsample
+  - [-1, 1, Conv, [512, 3, 2]]                   # 41 downsample P4 → P5 (output 512)
+  - [[-1, 31], 1, Concat, [1]]                   # 42 cat head P5 (512 + P5 fusion 1024 = 1536)
+  - [-1, 3, C2f, [1024]]                         # 43 P5/32 (large) (reduce 1536 → 1024)
+
+  # Final detection layer - ensure proper channel references
+  - [[37, 40, 43], 1, Detect, [nc, [256, 512, 1024]]]  # Explicit channel specification
+

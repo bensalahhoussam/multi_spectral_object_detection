@@ -1,0 +1,21 @@
+# Dataset Path
+
+
+path: E://projects/multi_model_fusion_yolov8/dataset
+
+
+train_rgb: images/train
+train_ir: thermal/train
+
+val_rgb: images/test
+val_ir: thermal/test
+
+test_rgb: images/test
+test_ir: thermal/test
+
+# Class Names
+names:
+  0: car
+  1: person
+  2: bicycle
+  3: dog
