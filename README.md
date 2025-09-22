@@ -41,7 +41,7 @@ Each stream passes through its own backbone, and features are fused at multiple 
 | -1 | 2 | C2f | [96, 96, 2, True] |
 | -1 | 1 | Conv | [96, 192, 3, 2] |
 | -1 | 4 | C2f | [192, 192, 4, True] |
-| [4, 9] | 1 | 3,583,872 | GPT | [192] |
+| [4, 9] | 1 | GPT | [192] |
 | [4, 10] | 1 | Add2 | [192, 0] |
 | [9, 10] | 1 | Add2 | [192, 1] |
 | 11 | 1 | Conv | [192, 384, 3, 2] |
