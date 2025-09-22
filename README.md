@@ -29,12 +29,13 @@ We modified the Ultralytics YOLO framework to support dual input streams (RGB + 
 Each stream passes through its own backbone, and features are fused at multiple levels before detection
 
 
-From	n	Module	Arguments
--1	1	Conv	[3, 48, 3, 2]
--1	1	Conv	[48, 96, 3, 2]
--1	2	C2f	[96, 96, 2, True]
--1	1	Conv	[96, 192, 3, 2]
--1	4	C2f	[192, 192, 4, True]
+| From | n | Module | Arguments |
+|------|---|--------|---------|
+| -1 | 1 | Conv | [3, 48, 3, 2] |
+| -1 | 1 | Conv | [48, 96, 3, 2] |
+| -1 | 2 | C2f | [96, 96, 2, True] |
+| -1 | 1 | Conv | [96, 192, 3, 2] |
+| -1 | 4 | C2f | [192, 192, 4, True] |
 
 
 
