@@ -25,53 +25,16 @@ General-purpose multispectral vision research
 
 ## YOLO fusion model summary with Ultralytics 
 
-                   from  n    params  module                                       arguments                     
-  0                  -1  1      1392  ultralytics.nn.modules.conv.Conv             [3, 48, 3, 2]                 
-  1                  -1  1     41664  ultralytics.nn.modules.conv.Conv             [48, 96, 3, 2]                
-  2                  -1  2    111360  ultralytics.nn.modules.block.C2f             [96, 96, 2, True]             
-  3                  -1  1    166272  ultralytics.nn.modules.conv.Conv             [96, 192, 3, 2]               
-  4                  -1  4    813312  ultralytics.nn.modules.block.C2f             [192, 192, 4, True]           
-  5                  -6  1      1392  ultralytics.nn.modules.conv.Conv             [3, 48, 3, 2]                 
-  6                  -1  1     41664  ultralytics.nn.modules.conv.Conv             [48, 96, 3, 2]                
-  7                  -1  2    111360  ultralytics.nn.modules.block.C2f             [96, 96, 2, True]             
-  8                  -1  1    166272  ultralytics.nn.modules.conv.Conv             [96, 192, 3, 2]               
-  9                  -1  4    813312  ultralytics.nn.modules.block.C2f             [192, 192, 4, True]           
- 10              [4, 9]  1   3583872  ultralytics.nn.modules.block.GPT             [192]                         
- 11             [4, 10]  1         0  ultralytics.nn.modules.block.Add2            [192, 0]                      
- 12             [9, 10]  1         0  ultralytics.nn.modules.block.Add2            [192, 1]                      
- 13                  11  1    664320  ultralytics.nn.modules.conv.Conv             [192, 384, 3, 2]              
- 14                  -1  4   3248640  ultralytics.nn.modules.block.C2f             [384, 384, 4, True]           
- 15                  12  1    664320  ultralytics.nn.modules.conv.Conv             [192, 384, 3, 2]              
- 16                  -1  4   3248640  ultralytics.nn.modules.block.C2f             [384, 384, 4, True]           
- 17            [14, 16]  1  14245632  ultralytics.nn.modules.block.GPT             [384]                         
- 18            [14, 17]  1         0  ultralytics.nn.modules.block.Add2            [384, 0]                      
- 19            [16, 17]  1         0  ultralytics.nn.modules.block.Add2            [384, 1]                      
- 20                  18  1   2655744  ultralytics.nn.modules.conv.Conv             [384, 768, 3, 2]              
- 21                  -1  2   7084032  ultralytics.nn.modules.block.C2f             [768, 768, 2, True]           
- 22                  -1  1   1476864  ultralytics.nn.modules.block.SPPF            [768, 768, 5]                 
- 23                  19  1   2655744  ultralytics.nn.modules.conv.Conv             [384, 768, 3, 2]              
- 24                  -1  2   7084032  ultralytics.nn.modules.block.C2f             [768, 768, 2, True]           
- 25                  -1  1   1476864  ultralytics.nn.modules.block.SPPF            [768, 768, 5]                 
- 26            [22, 25]  1  56802816  ultralytics.nn.modules.block.GPT             [768]                         
- 27            [22, 26]  1         0  ultralytics.nn.modules.block.Add2            [768, 0]                      
- 28            [25, 26]  1         0  ultralytics.nn.modules.block.Add2            [768, 1]                      
- 29            [11, 12]  1         0  ultralytics.nn.modules.block.Add             [192]                         
- 30            [18, 19]  1         0  ultralytics.nn.modules.block.Add             [384]                         
- 31            [27, 28]  1         0  ultralytics.nn.modules.block.Add             [768]                         
- 32                  -1  1         0  torch.nn.modules.upsampling.Upsample         [None, 2, 'nearest']          
- 33            [-1, 30]  1         0  ultralytics.nn.modules.conv.Concat           [1]                           
- 34                  -1  2   2067456  ultralytics.nn.modules.block.C2f             [1152, 384, 2]                
- 35                  -1  1         0  torch.nn.modules.upsampling.Upsample         [None, 2, 'nearest']          
- 36            [-1, 29]  1         0  ultralytics.nn.modules.conv.Concat           [1]                           
- 37                  -1  2    517632  ultralytics.nn.modules.block.C2f             [576, 192, 2]                 
- 38                  -1  1    332160  ultralytics.nn.modules.conv.Conv             [192, 192, 3, 2]              
- 39            [-1, 34]  1         0  ultralytics.nn.modules.conv.Concat           [1]                           
- 40                  -1  2   1846272  ultralytics.nn.modules.block.C2f             [576, 384, 2]                 
- 41                  -1  1   1327872  ultralytics.nn.modules.conv.Conv             [384, 384, 3, 2]              
- 42            [-1, 31]  1         0  ultralytics.nn.modules.conv.Concat           [1]                           
- 43                  -1  2   7378944  ultralytics.nn.modules.block.C2f             [1152, 768, 2]                
- 44        [37, 40, 43]  1   4220380  ultralytics.nn.modules.head.Detect           [4, [192, 384, 768]]          
-YOLOv_fusion summary: 554 layers, 124,850,236 parameters, 124,850,220 gradients, 3873.8 GFLOPs
+We modified the Ultralytics YOLO framework to support dual input streams (RGB + Thermal).
+Each stream passes through its own backbone, and features are fused at multiple levels before detection
+
+
+From	n	Module	Arguments
+-1	1	Conv	[3, 48, 3, 2]
+-1	1	Conv	[48, 96, 3, 2]
+-1	2	C2f	[96, 96, 2, True]
+-1	1	Conv	[96, 192, 3, 2]
+-1	4	C2f	[192, 192, 4, True]
 
 
 
