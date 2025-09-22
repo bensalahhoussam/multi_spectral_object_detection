@@ -85,7 +85,7 @@ The model processes features at three different scales:
 - **384 channels** (mid-level features)
 - **768 channels** (deep features)
 
-## Fusion Strategy
+### Fusion Strategy
 
 The architecture employs a dual-branch processing approach with:
 1. Parallel processing of inputs through two similar backbone structures, first layer and layer 6 
@@ -93,8 +93,6 @@ The architecture employs a dual-branch processing approach with:
 3. Hierarchical feature aggregation at different network depths
 
 This design enables robust feature extraction and integration, making it suitable for complex computer vision tasks.
-
-
 
 
 
