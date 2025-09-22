@@ -28,17 +28,17 @@ General-purpose multispectral vision research
 This project requires paired RGB and Thermal images along with their corresponding labels. The dataset is organized into three splits: train, val, and test.
 
 dataset/
- ├── images/
- │    ├── train/        
- │    ├── val/         
- │    ├── test/         
- │
- ├── thermal/
- │    ├── train/       
- │    ├── val/          
- │    ├── test/         
- │
- ├── labels/
- │    ├── train/        
- │    ├── val/         
- │    ├── test/
+├── images/
+│ ├── train/ 
+│ ├── val/ 
+│ ├── test/
+│
+├── thermal/
+│ ├── train/ 
+│ ├── val/ 
+│ ├── test/ 
+│
+├── labels/
+│ ├── train/ 
+│ ├── val/
+│ ├── test/
