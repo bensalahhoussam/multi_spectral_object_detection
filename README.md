@@ -118,5 +118,7 @@ This project requires paired RGB and Thermal images along with their correspondi
 
 
   ## Model Training
+```bash
 !yolo detect dualtrain model=yolov_fusion.yaml data=FLIR.yaml workers=2 batch=12 device=0 epochs=30 patience=80 name=visible
+```
 
