@@ -34,10 +34,10 @@ This project requires paired RGB and Thermal images along with their correspondi
     - train/         
     - val/           
     - test/           
-    - thermal/
-      - train/        
-      - val/         
-      - test/         
+  - thermal/
+    - train/        
+    - val/         
+    - test/         
   - labels/
     - train/        
     - val/            
