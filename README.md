@@ -17,3 +17,28 @@ Autonomous driving in night-time and low-visibility scenarios
 Surveillance and safety systems
 
 General-purpose multispectral vision research
+
+
+## Model Overview
+
+<img width="5120" height="1974" alt="image" src="https://github.com/user-attachments/assets/b6ef4233-1279-4a1b-856b-f5325b5124cc" />
+
+## Data Preparation 
+
+This project requires paired RGB and Thermal images along with their corresponding labels. The dataset is organized into three splits: train, val, and test.
+
+dataset/
+ ├── images/
+ │    ├── train/        
+ │    ├── val/         
+ │    ├── test/         
+ │
+ ├── thermal/
+ │    ├── train/       
+ │    ├── val/          
+ │    ├── test/         
+ │
+ ├── labels/
+ │    ├── train/        
+ │    ├── val/         
+ │    ├── test/
