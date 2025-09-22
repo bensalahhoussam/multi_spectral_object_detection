@@ -27,21 +27,5 @@ General-purpose multispectral vision research
 
 This project requires paired RGB and Thermal images along with their corresponding labels. The dataset is organized into three splits: train, val, and test.
 
-FusionGAN
-├── ...
-├── Test_LLVIP_ir
-|   ├── 190001.jpg
-|   ├── 190002.jpg
-|   └── ...
-├── Test_LLVIP_vi
-|   ├── 190001.jpg
-|   ├── 190002.jpg
-|   └── ...
-├── Train_LLVIP_ir
-|   ├── 010001.jpg
-|   ├── 010002.jpg
-|   └── ...
-└── Train_LLVIP_vi
-    ├── 010001.jpg
-    ├── 010002.jpg
-    └── ...
+### 📂 File structure
+
