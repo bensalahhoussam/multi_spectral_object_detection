@@ -28,7 +28,6 @@ General-purpose multispectral vision research
 We modified the Ultralytics YOLO framework to support dual input streams (RGB + Thermal).
 Each stream passes through its own backbone, and features are fused at multiple levels before detection
 
-
 | From | n | Module | Arguments |
 |------|---|--------|---------|
 | -1 | 1 | Conv | [3, 48, 3, 2] |
@@ -94,6 +93,10 @@ The architecture employs a dual-branch processing approach with:
 
 This design enables robust feature extraction and integration, making it suitable for complex computer vision tasks.
 
+
+## Demo 
+
+![Uploading ezgif-41d2a3f8e1588a.gif…]()
 
 
 ## Data Preparation 
