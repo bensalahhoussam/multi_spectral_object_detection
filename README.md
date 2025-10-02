@@ -96,7 +96,7 @@ This design enables robust feature extraction and integration, making it suitabl
 
 ## Demo 
 
-![Demo](Uploading ezgif-41d2a3f8e1588a.gif)
+![ezgif-41d2a3f8e1588a](https://github.com/user-attachments/assets/ce2d30bd-466e-42e5-832c-a50d89bee383)
 
 
 ## Data Preparation 
