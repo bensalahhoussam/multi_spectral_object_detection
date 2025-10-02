@@ -124,4 +124,10 @@ This project requires paired RGB and Thermal images along with their correspondi
 ```bash
 !yolo detect Dualtrain model=yolov_fusion.yaml data=FLIR.yaml workers=2 batch=12 device=0 epochs=30 patience=80 name=visible
 ```
+## Results 
+
+| Dataset | CFT | mAP50 | 
+|---------|-----|-------|
+| FLIR    |     | 75.0  |
+
 
